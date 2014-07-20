@@ -9,14 +9,36 @@ use 5.010;
 use File::Copy;
 use Parallel::ForkManager;
 use POSIX 'strftime';
+use Sys::Virt;
+use Array::Utils;
+my $vmm = Sys::Virt->new(uri => 'qemu:///system');
 
 my $pm = Parallel::ForkManager->new(4);
+
+my @active_vm;
+
+my @domains = $vmm->list_domains();
+foreach my $dom (@domains) {
+	push @active_vm,$dom->get_name;
+	}
 
 #### user enter guest vm name to take backup.
 ### gather disk info as per vm name
 my $dest_dir = '/tmp';
 my @vm_disk;
 my $date = strftime '%Y-%m-%d', localtime;
+
+# check vm is on or shutdown, if it is on then exit this program.
+#
+
+foreach my $e_vm (@active_vm){
+		if ($e_vm ~~ @ARGV){
+		say "VM is running, please shutdown it and then do backup";
+		exit;
+	}
+}
+
+
 for my $vm (@ARGV){
 	push @vm_disk, `virsh domblklist $vm | grep vda | awk -F ' ' {'print \$2'}`;
 }
