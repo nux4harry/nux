@@ -1,18 +1,5 @@
 #!/usr/bin/env perl 
 #===============================================================================
-#
-#         FILE: backup.pl
-#
-#        USAGE: ./backup.pl  
-#
-#  DESCRIPTION: 
-#
-#      OPTIONS: ---
-# REQUIREMENTS: ---
-#         BUGS: ---
-#        NOTES: ---
-#       AUTHOR: Harry (nux.harry@gmail.com)
-#===============================================================================
 
 use strict;
 use warnings;
